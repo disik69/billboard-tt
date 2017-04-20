@@ -1,5 +1,5 @@
 <#include "../layouts/main.ftl">
 
-<@mainLayout>
+<@mainLayout title="Signin">
 
 </@mainLayout>

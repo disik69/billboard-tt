@@ -10,4 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/sign")
 public class SignController {
 
+    @RequestMapping("/in")
+    public String in() {
+        return "/sign/in";
+    }
 }

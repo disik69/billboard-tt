@@ -6,7 +6,7 @@
 	<groupId>ua.pp.disik.tt</groupId>
 	<artifactId>disik-tt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>disik-tt</name>
 	<description>Demo project for Spring Boot</description>

@@ -1,15 +1,17 @@
 package ua.pp.disik.tt.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import sun.misc.Request;
 import ua.pp.disik.tt.entities.Publication;
 import ua.pp.disik.tt.entities.Topic;
 import ua.pp.disik.tt.entities.User;
 import ua.pp.disik.tt.repositories.PublicationRepository;
 import ua.pp.disik.tt.repositories.UserRepository;
+import ua.pp.disik.tt.services.ParentTestService;
 
 import java.util.*;
 
@@ -18,13 +20,15 @@ import java.util.*;
  */
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping("test")
 public class TestController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private PublicationRepository publicationRepository;
 
+    @Autowired
+    private ParentTestService parentTestService;
 
     @RequestMapping(method = RequestMethod.GET)
     public Map<String, Object> test() {
@@ -43,6 +47,16 @@ public class TestController {
         Map<String, Object> result = new HashMap<>();
         result.put("user", user);
         result.put("publication", publication);
+
+        return result;
+    }
+
+    @RequestMapping(path = "parent-service", method = RequestMethod.GET)
+    public Map<String, Object> abc() {
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("serviceId", parentTestService.getId());
+        result.put("childService", parentTestService.getChildTestService());
 
         return result;
     }

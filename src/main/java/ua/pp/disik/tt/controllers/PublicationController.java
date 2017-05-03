@@ -35,4 +35,9 @@ public class PublicationController {
     public String update(@PathVariable String id) {
         return "redirect:/publication/update/" + id;
     }
+
+    @RequestMapping(path = "/delete/{id}", method = RequestMethod.POST)
+    public String delete(@PathVariable String id) {
+        return "redirect:/publication/list";
+    }
 }

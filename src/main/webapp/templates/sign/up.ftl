@@ -1,6 +1,6 @@
 <#include "../layouts/main.ftl">
 
-<#assign title="Signin">
+<#assign title="Signup">
 
 <@mainLayout title=title>
     ${title}

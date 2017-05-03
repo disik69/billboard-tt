@@ -1,0 +1,30 @@
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+    padding-bottom: 81px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #ccc;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #aaa;
+}
+
+footer > p {
+    margin: 0;
+}
+
+.navbar-default {
+    border: none;
+    border-radius: 0;
+    background-color: #ccc;
+    border-bottom: 1px solid #aaa;
+}

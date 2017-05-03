@@ -26,6 +26,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         freeMarkerViewResolver.setPrefix("/");
         freeMarkerViewResolver.setSuffix(".ftl");
         freeMarkerViewResolver.setContentType("text/html; charset=UTF-8");
+        freeMarkerViewResolver.setCache(false);
         registry.viewResolver(freeMarkerViewResolver);
     }
 

@@ -8,9 +8,9 @@ import ua.pp.disik.tt.repositories.PublicationRepository;
 import ua.pp.disik.tt.repositories.UserRepository;
 
 @SpringBootApplication
-public class DisikTtApplication {
+public class BillboardTtApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(DisikTtApplication.class, args);
+		SpringApplication.run(BillboardTtApplication.class, args);
 	}
 
 	@Bean

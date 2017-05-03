@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>ua.pp.disik.tt</groupId>
-	<artifactId>disik-tt</artifactId>
+	<artifactId>billboard-tt</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>disik-tt</name>
+	<name>billboard-tt</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>

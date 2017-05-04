@@ -1,3 +1,5 @@
+<#assign security=JspTaglibs["http://www.springframework.org/security/tags"]>
+
 <#macro mainLayout title>
     <html>
         <head>
@@ -29,8 +31,6 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="main-navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="/sign/in">Signin</a></li>
-                        <li><a href="/sign/up">Signup</a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" role="button">
                                 Publication<span class="caret"></span>
@@ -43,9 +43,12 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" role="button"><span class="glyphicon glyphicon-user"></span> User</a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                <span class="glyphicon glyphicon-user"></span>&nbsp;User</a>
                             <ul class="dropdown-menu">
-                                <li role="button"><a href="/sign/out">Signout</a></li>
+                                <li><a href="/sign/in">Signin</a></li>
+                                <li><a href="/sign/up">Signup</a></li>
+                                <li><a href="/sign/out">Signout</a></li>
                             </ul>
                         </li>
                     </ul>

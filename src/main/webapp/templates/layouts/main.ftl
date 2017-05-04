@@ -15,54 +15,64 @@
             <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
         </head>
         <body>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="/" class="navbar-brand">Billboard</a>
-                </div>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="/" class="navbar-brand">Billboard</a>
+                    </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="main-navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                Publication<span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/publication/list">List</a></li>
-                                <li><a href="/publication/create">New</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                <span class="glyphicon glyphicon-user"></span>&nbsp;User</a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/sign/in">Signin</a></li>
-                                <li><a href="/sign/up">Signup</a></li>
-                                <li><a href="/sign/out">Signout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="main-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                    Publication<span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="/publication/list">List</a></li>
+                                    <li><a href="/publication/create">New</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                    <@security.authorize access="hasRole('ROLE_USER')">
+                                        <span class="glyphicon glyphicon-user"></span>&nbsp;<@security.authentication property="principal.name"/>
+                                    </@security.authorize>
+                                    <@security.authorize access="isAnonymous()">
+                                        Sign
+                                    </@security.authorize>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <@security.authorize access="isAnonymous()">
+                                        <li><a href="/sign/in">Signin</a></li>
+                                        <li><a href="/sign/up">Signup</a></li>
+                                    </@security.authorize>
+                                    <@security.authorize access="hasRole('ROLE_USER')">
+                                        <li><a href="/sign/out">Signout</a></li>
+                                    </@security.authorize>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
 
-        <div class="container">
-            <#nested>
-        </div>
+            <div class="container">
+                <#nested>
+            </div>
 
-        <footer>
-            <p><b>Billboard&COPY;</b> 2017</p>
-        </footer>
+            <footer>
+                <p><b>Billboard&COPY;</b> 2017</p>
+            </footer>
         </body>
     </html>
 </#macro>

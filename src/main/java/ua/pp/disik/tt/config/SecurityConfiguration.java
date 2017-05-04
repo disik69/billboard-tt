@@ -34,6 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .antMatchers("/publication/create",
                                 "/publication/update/*",
                                 "/publication/delete/*").hasRole("USER")
+                        .antMatchers("/sign/in",
+                                "/sign/up").anonymous()
                         .and().formLogin().loginPage("/sign/in")
                         .and().logout().logoutUrl("/sign/out")
                                 .logoutSuccessUrl("/");

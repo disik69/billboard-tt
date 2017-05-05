@@ -28,3 +28,11 @@ footer > p {
     background-color: #ccc;
     border-bottom: 1px solid #aaa;
 }
+
+.list-filter-form > div {
+    margin-right: 15px;
+}
+
+.list-publication {
+    border: 1px solid black;
+}

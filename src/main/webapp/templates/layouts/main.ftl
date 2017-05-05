@@ -1,4 +1,6 @@
-<#assign security=JspTaglibs["http://www.springframework.org/security/tags"]>
+<#assign springSecurity=JspTaglibs["http://www.springframework.org/security/tags"]>
+<#assign spring=JspTaglibs["http://www.springframework.org/tags"]>
+<#assign springForm=JspTaglibs["http://www.springframework.org/tags/form"]>
 
 <#macro mainLayout title>
     <html>
@@ -44,21 +46,21 @@
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
                                 <a class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                    <@security.authorize access="hasRole('ROLE_USER')">
-                                        <span class="glyphicon glyphicon-user"></span>&nbsp;<@security.authentication property="principal.name"/>
-                                    </@security.authorize>
-                                    <@security.authorize access="isAnonymous()">
+                                    <@springSecurity.authorize access="hasRole('ROLE_USER')">
+                                        <span class="glyphicon glyphicon-user"></span>&nbsp;<@springSecurity.authentication property="principal.name"/>
+                                    </@springSecurity.authorize>
+                                    <@springSecurity.authorize access="isAnonymous()">
                                         Sign
-                                    </@security.authorize>
+                                    </@springSecurity.authorize>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <@security.authorize access="isAnonymous()">
+                                    <@springSecurity.authorize access="isAnonymous()">
                                         <li><a href="/sign/in">Signin</a></li>
                                         <li><a href="/sign/up">Signup</a></li>
-                                    </@security.authorize>
-                                    <@security.authorize access="hasRole('ROLE_USER')">
+                                    </@springSecurity.authorize>
+                                    <@springSecurity.authorize access="hasRole('ROLE_USER')">
                                         <li><a href="/sign/out">Signout</a></li>
-                                    </@security.authorize>
+                                    </@springSecurity.authorize>
                                 </ul>
                             </li>
                         </ul>

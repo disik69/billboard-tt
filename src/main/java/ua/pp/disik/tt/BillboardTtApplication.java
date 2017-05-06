@@ -45,11 +45,11 @@ public class BillboardTtApplication {
 
 			List<Publication> publications = new ArrayList<>();
 			for (User user : users) {
-                for (int i = 1; i < 5; i++) {
+                for (int i = 1; i < 10; i++) {
                     String index = String.valueOf(i);
                     String body = "";
                     for (int j = 0; j < 50; j++) {
-                        body += ("Body" + index);
+                        body += ("Body" + index + " ");
                     }
 
                     Publication publication = new Publication(

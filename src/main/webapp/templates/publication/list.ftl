@@ -30,91 +30,61 @@
             </div>
         </form>
     </div>
-    <div class="row">
-        <div class="col-xs-offset-3 col-xs-6 list-publication">
-            <div class="row">
-                <div class="col-xs-6 title"><a href="#">Title</a></div>
-                <div class="col-xs-3">Topic</div>
-                <div class="col-xs-3">Date</div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
+    <#list publications as publication>
+        <div class="row">
+            <div class="col-xs-offset-3 col-xs-6 list-publication">
+                <div class="row">
+                    <div class="col-xs-6 title"><a href="#">${publication.title}</a></div>
+                    <div class="col-xs-3">${publication.topic}</div>
+                    <div class="col-xs-3">${publication.createdAt}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        ${publication.body}
+                    </div>
+                </div>
+                <div class="row">
+                    <form class="col-xs-3">
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                    <div class="col-xs-offset-6 col-xs-3">${publication.userId}</div>
                 </div>
             </div>
-            <div class="row">
-                <form class="col-xs-3">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                </form>
-                <div class="col-xs-offset-6 col-xs-3">User</div>
-            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-offset-3 col-xs-6 list-publication">
-            <div class="row">
-                <div class="col-xs-6 title"><a href="#">Title</a></div>
-                <div class="col-xs-3">Topic</div>
-                <div class="col-xs-3">Date</div>
+    </#list>
+    <#if isPaginationEnabled>
+        <nav class="row">
+            <div class="col-xs-offset-3 col-xs-6 list-pagination">
+                <ul class="pagination">
+                    <#if isLeftEnabled>
+                        <li>
+                            <a href="/publication/list?page=${currentPage - 1}&rows=${rowCount}">
+                                <span>&laquo;</span>
+                            </a>
+                        </li>
+                    <#else>
+                        <li class="disabled">
+                            <span>&laquo;</span>
+                        </li>
+                    </#if>
+                    <#list pageBlock as blockPage>
+                        <li class="<#if currentPage == blockPage>active</#if>">
+                            <a href="/publication/list?page=${blockPage}&rows=${rowCount}">${blockPage}</a>
+                        </li>
+                    </#list>
+                    <#if isRightEnabled>
+                        <li>
+                            <a href="/publication/list?page=${currentPage + 1}&rows=${rowCount}">
+                                <span>&raquo;</span>
+                            </a>
+                        </li>
+                    <#else>
+                        <li class="disabled">
+                            <span>&raquo;</span>
+                        </li>
+                    </#if>
+                </ul>
             </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                    Body
-                </div>
-            </div>
-            <div class="row">
-                <form class="col-xs-3">
-                    <button class="btn btn-danger" type="submit">Delete</button>
-                </form>
-                <div class="col-xs-offset-6 col-xs-3">User</div>
-            </div>
-        </div>
-    </div>
-    <nav class="row">
-        <div class="col-xs-offset-3 col-xs-6 list-pagination">
-            <ul class="pagination">
-                <li>
-                    <a href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li><a href="#">1</a></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li>
-                    <a href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+        </nav>
+    </#if>
 </@mainLayout>

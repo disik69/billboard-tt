@@ -22,33 +22,17 @@ import java.util.*;
 @RestController
 @RequestMapping("test")
 public class TestController {
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private PublicationRepository publicationRepository;
-
-    @Autowired
     private ParentTestService parentTestService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Map<String, Object> test() {
-        User user = new User("aaa", "aaa@test.test", "aaapass");
-        userRepository.save(user);
-
-        user = userRepository.findOne(user.getId());
-
-        Set<Topic> topics = new HashSet<>(Arrays.asList(Topic.PURCHASE, Topic.SERVICE));
-
-        Publication publication = new Publication(user.getId(), "title", "body", topics);
-        publicationRepository.save(publication);
-
-        publication = publicationRepository.findOne(publication.getId());
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("user", user);
-        result.put("publication", publication);
-
-        return result;
+    @Autowired
+    public TestController(UserRepository userRepository,
+                          PublicationRepository publicationRepository,
+                          ParentTestService parentTestService) {
+        this.userRepository = userRepository;
+        this.publicationRepository = publicationRepository;
+        this.parentTestService = parentTestService;
     }
 
     @RequestMapping(path = "parent-service", method = RequestMethod.GET)

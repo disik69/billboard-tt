@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ua.pp.disik.tt.entities.Publication;
+import ua.pp.disik.tt.entities.Topic;
 import ua.pp.disik.tt.entities.User;
+import ua.pp.disik.tt.repositories.PublicationRepository;
 import ua.pp.disik.tt.repositories.UserRepository;
 
 import java.util.ArrayList;
@@ -24,8 +27,9 @@ public class BillboardTtApplication {
 	CommandLineRunner init(MongoClient mongoClient,
 						   Environment environment,
 						   UserRepository userRepository,
+						   PublicationRepository publicationRepository,
 						   PasswordEncoder passwordEncoder) {
-		return (var1) -> {
+		return (arg) -> {
 			mongoClient.dropDatabase(environment.getProperty("spring.data.mongodb.database"));
 
 			List<User> users = new ArrayList<>();
@@ -38,6 +42,26 @@ public class BillboardTtApplication {
 			}
 
 			users = userRepository.save(users);
+
+			List<Publication> publications = new ArrayList<>();
+			for (User user : users) {
+                for (int i = 1; i < 5; i++) {
+                    String index = String.valueOf(i);
+                    String body = "";
+                    for (int j = 0; j < 50; j++) {
+                        body += ("Body" + index);
+                    }
+
+                    Publication publication = new Publication(
+                            user.getId(),
+                            "Title" + index,
+                            body,
+                            Topic.getRandomTopic());
+                    publications.add(publication);
+                }
+			}
+
+			publications = publicationRepository.save(publications);
 		};
 	}
 }

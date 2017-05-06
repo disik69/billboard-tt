@@ -15,22 +15,22 @@ import java.util.Set;
 public class Publication {
     @Id
     private String id;
-    private Set<Topic> topics;
+    private Topic topic;
     private long createdAt;
     private String title;
     private String body;
     private String userId;
 
-    public Publication(String userId, String title, String body, Set<Topic> topics) {
-        this(userId, title, body, topics, Instant.now().getEpochSecond());
+    public Publication(String userId, String title, String body, Topic topic) {
+        this(userId, title, body, topic, Instant.now().getEpochSecond());
     }
 
     @PersistenceConstructor
-    public Publication(String userId, String title, String body, Set<Topic> topics, long createdAt) {
+    public Publication(String userId, String title, String body, Topic topic, long createdAt) {
         this.userId = userId;
         this.title = title;
         this.body = body;
-        this.topics = topics;
+        this.topic = topic;
         this.createdAt = createdAt;
     }
 
@@ -54,8 +54,12 @@ public class Publication {
         return createdAt;
     }
 
-    public Set<Topic> getTopics() {
-        return topics;
+    public Topic getTopic() {
+        return topic;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
     }
 
     public void setTitle(String title) {
@@ -64,13 +68,5 @@ public class Publication {
 
     public void setBody(String body) {
         this.body = body;
-    }
-
-    public boolean addTopic(Topic topic) {
-        return topics.add(topic);
-    }
-
-    public boolean removeTopic(Topic topic) {
-        return topics.remove(topic);
     }
 }

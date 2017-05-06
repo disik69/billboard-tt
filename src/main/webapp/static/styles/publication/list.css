@@ -1,0 +1,17 @@
+.list-filter-form > .form-group, .list-filter-form > .checkbox {
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.list-publication {
+    border: 1px solid black;
+    margin-bottom: 15px;
+}
+
+.list-publication .title {
+    font-weight: bold;
+}
+
+.list-publication > div > div, .list-publication > div > form {
+    padding: 15px;
+}

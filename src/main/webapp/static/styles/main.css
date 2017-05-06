@@ -29,10 +29,6 @@ footer > p {
     border-bottom: 1px solid #aaa;
 }
 
-.list-filter-form > div {
-    margin-right: 15px;
-}
-
-.list-publication {
-    border: 1px solid black;
+form {
+    margin: 0;
 }

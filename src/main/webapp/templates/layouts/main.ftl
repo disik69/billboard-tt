@@ -2,7 +2,7 @@
 <#assign spring=JspTaglibs["http://www.springframework.org/tags"]>
 <#assign springForm=JspTaglibs["http://www.springframework.org/tags/form"]>
 
-<#macro mainLayout title>
+<#macro mainLayout title style="">
     <html>
         <head>
             <meta charset="utf-8">
@@ -15,6 +15,7 @@
 
             <script src="/bower_components/jquery/dist/jquery.js"></script>
             <script src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+            ${style}
         </head>
         <body>
             <nav class="navbar navbar-default">

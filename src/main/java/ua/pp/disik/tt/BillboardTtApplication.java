@@ -29,7 +29,7 @@ public class BillboardTtApplication {
 						   UserRepository userRepository,
 						   PublicationRepository publicationRepository,
 						   PasswordEncoder passwordEncoder) {
-		return (arg) -> {
+		return (args) -> {
 			mongoClient.dropDatabase(environment.getProperty("spring.data.mongodb.database"));
 
 			List<User> users = new ArrayList<>();

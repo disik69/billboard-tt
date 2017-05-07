@@ -14,3 +14,18 @@
         ${commonContent}
     </@springSecurity.authorize>
 </#macro>
+
+<#function addSearchParams>
+    <#assign searchParams="">
+    <#if RequestParameters.user??>
+        <#assign searchParams=searchParams+"&user="+RequestParameters.user>
+    </#if>
+    <#if RequestParameters.topic??>
+        <#assign searchParams=searchParams+"&topic="+RequestParameters.topic>
+    </#if>
+    <#if RequestParameters.onlyMine??>
+        <#assign searchParams=searchParams+"&onlyMine="+RequestParameters.onlyMine>
+    </#if>
+
+    <#return searchParams>
+</#function>

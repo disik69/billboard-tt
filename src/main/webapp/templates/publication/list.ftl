@@ -82,7 +82,7 @@
                 <ul class="pagination">
                     <#if isLeftEnabled>
                         <li>
-                            <a href="/publication/list?page=${currentPage - 1}&rows=${rowCount}">
+                            <a href="/publication/list?page=${currentPage - 1}&rows=${rowCount}${common.addSearchParams()}">
                                 <span>&laquo;</span>
                             </a>
                         </li>
@@ -93,12 +93,12 @@
                     </#if>
                     <#list pageBlock as blockPage>
                         <li class="<#if currentPage == blockPage>active</#if>">
-                            <a href="/publication/list?page=${blockPage}&rows=${rowCount}">${blockPage}</a>
+                            <a href="/publication/list?page=${blockPage}&rows=${rowCount}${common.addSearchParams()}">${blockPage}</a>
                         </li>
                     </#list>
                     <#if isRightEnabled>
                         <li>
-                            <a href="/publication/list?page=${currentPage + 1}&rows=${rowCount}">
+                            <a href="/publication/list?page=${currentPage + 1}&rows=${rowCount}${common.addSearchParams()}">
                                 <span>&raquo;</span>
                             </a>
                         </li>

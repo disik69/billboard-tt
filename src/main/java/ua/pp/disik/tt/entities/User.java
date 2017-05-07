@@ -77,4 +77,17 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            if (this.email.equals(((User) obj).email)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 }

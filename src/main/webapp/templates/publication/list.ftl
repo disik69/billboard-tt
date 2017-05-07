@@ -1,3 +1,5 @@
+<#import "/macroses/common.ftl" as common>
+
 <#include "../layouts/main.ftl">
 
 <#assign title="Publications">
@@ -7,24 +9,32 @@
 
 <@mainLayout title=title style=style>
     <div class="row">
-        <form class="form-inline col-xs-offset-3 col-xs-6 list-filter-form">
+        <form class="form-inline col-xs-offset-3 col-xs-6 list-filter-form" action="/publication/list" method="GET">
             <div class="form-group">
-                <input type="text" class="form-control" placeholder="User">
+                <label>User</label>
+                <input type="text" class="form-control" name="user"
+                    <#if RequestParameters.user??>value="${RequestParameters.user}"</#if>>
             </div>
             <div class="form-group">
-                <select class="form-control">
-                    <option value="">Topic</option>
-                    <option value="">2</option>
-                    <option value="">3</option>
-                    <option value="">4</option>
-                    <option value="">5</option>
+                <label>Topic</label>
+                <select class="form-control" name="topic">
+                    <option value="">ALL</option>
+                    <#list topics as topic>
+                        <option value="${topic}"
+                            <#if RequestParameters.topic?? && RequestParameters.topic == topic>selected="selected"</#if>>
+                            ${topic}
+                        </option>
+                    </#list>
                 </select>
             </div>
-            <div class="checkbox">
-                <label>
-                    <input type="checkbox">&nbsp;Only mine
-                </label>
-            </div>
+            <@springSecurity.authorize access="hasRole('ROLE_USER')">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="onlyMine" value="true"
+                            <#if RequestParameters.onlyMine??>checked="checked"</#if>>&nbsp;Only mine
+                    </label>
+                </div>
+            </@springSecurity.authorize>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
@@ -34,9 +44,17 @@
         <div class="row">
             <div class="col-xs-offset-3 col-xs-6 list-publication">
                 <div class="row">
-                    <div class="col-xs-6 title"><a href="#">${publication.title}</a></div>
+                    <div class="col-xs-6 title">
+                        <#assign ownContent>
+                            <a href="/publication/update/${publication.id}">${publication.title}</a>
+                        </#assign>
+                        <#assign commonContent>
+                            ${publication.title}
+                        </#assign>
+                        <@common.sourceOwner user=publication.user ownContent=ownContent commonContent=commonContent/>
+                    </div>
                     <div class="col-xs-3">${publication.topic}</div>
-                    <div class="col-xs-3">${publication.createdAt}</div>
+                    <div class="col-xs-3">${publication.formatCreatedAt("dd-MM-yy H:m:s")}</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">
@@ -44,10 +62,16 @@
                     </div>
                 </div>
                 <div class="row">
-                    <form class="col-xs-3">
-                        <button class="btn btn-danger" type="submit">Delete</button>
-                    </form>
-                    <div class="col-xs-offset-6 col-xs-3">${publication.userId}</div>
+                    <#assign ownContent>
+                        <form class="col-xs-3" method="POST" action="/publication/delete/${publication.id}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </#assign>
+                    <#assign commonContent>
+                        <div class="col-xs-3"></div>
+                    </#assign>
+                    <@common.sourceOwner user=publication.user ownContent=ownContent commonContent=commonContent/>
+                    <div class="col-xs-offset-6 col-xs-3">${publication.user.name}</div>
                 </div>
             </div>
         </div>

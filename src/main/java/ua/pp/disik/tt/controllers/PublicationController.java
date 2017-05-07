@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.pp.disik.tt.entities.Publication;
+import ua.pp.disik.tt.entities.Topic;
 import ua.pp.disik.tt.repositories.PublicationRepository;
 import ua.pp.disik.tt.repositories.UserRepository;
 
@@ -38,7 +39,8 @@ public class PublicationController {
     @RequestMapping(path = "/list", method = RequestMethod.GET)
     public String list(@RequestParam(name = "page", required = false) Integer currentPage,
                        @RequestParam(name = "rows", required = false) Integer rowCount,
-                       Model model) {
+                       Model model,
+                       Principal principal) {
         if (currentPage == null) {
             currentPage = 1;
         }
@@ -61,6 +63,7 @@ public class PublicationController {
             pageBlock.add(i);
         }
 
+        model.addAttribute("topics", Topic.values());
         model.addAttribute("publications", publicationPage.getContent());
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("pageBlock", pageBlock);

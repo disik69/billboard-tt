@@ -2,10 +2,13 @@ package ua.pp.disik.tt.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
-import java.util.Set;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Created by disik on 4/6/17.
@@ -19,15 +22,16 @@ public class Publication {
     private long createdAt;
     private String title;
     private String body;
-    private String userId;
+    @DBRef(lazy = true)
+    private User user;
 
-    public Publication(String userId, String title, String body, Topic topic) {
-        this(userId, title, body, topic, Instant.now().getEpochSecond());
+    public Publication(User user, String title, String body, Topic topic) {
+        this(user, title, body, topic, Instant.now().getEpochSecond());
     }
 
     @PersistenceConstructor
-    public Publication(String userId, String title, String body, Topic topic, long createdAt) {
-        this.userId = userId;
+    public Publication(User user, String title, String body, Topic topic, long createdAt) {
+        this.user = user;
         this.title = title;
         this.body = body;
         this.topic = topic;
@@ -46,12 +50,20 @@ public class Publication {
         return body;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public long getCreatedAt() {
-        return createdAt;
+    public ZonedDateTime getCreatedAt() {
+        Instant instant = Instant.ofEpochSecond(createdAt);
+
+        return ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+    }
+
+    public String formatCreatedAt(String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+
+        return getCreatedAt().format(formatter);
     }
 
     public Topic getTopic() {

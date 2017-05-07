@@ -14,6 +14,7 @@ import ua.pp.disik.tt.entities.User;
 import ua.pp.disik.tt.repositories.PublicationRepository;
 import ua.pp.disik.tt.repositories.UserRepository;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +45,9 @@ public class BillboardTtApplication {
 			users = userRepository.save(users);
 
 			List<Publication> publications = new ArrayList<>();
+			long currentTimestamp = Instant.now().getEpochSecond();
 			for (User user : users) {
-                for (int i = 1; i < 10; i++) {
+                for (int i = 1; i < 10; i++, currentTimestamp++) {
                     String index = String.valueOf(i);
                     String body = "";
                     for (int j = 0; j < 50; j++) {
@@ -53,10 +55,11 @@ public class BillboardTtApplication {
                     }
 
                     Publication publication = new Publication(
-                            user.getId(),
+                            user,
                             "Title" + index,
                             body,
-                            Topic.getRandomTopic());
+                            Topic.getRandomTopic(),
+                            currentTimestamp);
                     publications.add(publication);
                 }
 			}

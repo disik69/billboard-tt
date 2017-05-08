@@ -54,7 +54,7 @@
                         <@common.sourceOwner user=publication.user ownContent=ownContent commonContent=commonContent/>
                     </div>
                     <div class="col-xs-3">${publication.topic}</div>
-                    <div class="col-xs-3">${publication.formatCreatedAt("dd-MM-yy H:m:s")}</div>
+                    <div class="col-xs-3">${publication.formatCreatedAt("dd-MM-yy HH:mm:ss")}</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-12">

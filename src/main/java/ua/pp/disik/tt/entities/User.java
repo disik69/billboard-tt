@@ -18,9 +18,13 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     private String id;
+
     private String name;
     private String email;
     private String password;
+
+    public User() {
+    }
 
     @PersistenceConstructor
     public User(String name, String email, String password) {

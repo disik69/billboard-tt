@@ -10,17 +10,19 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ua.pp.disik.tt.entities.Publication;
 import ua.pp.disik.tt.entities.Topic;
 import ua.pp.disik.tt.entities.User;
+import ua.pp.disik.tt.exceptions.HttpForbiddenException;
+import ua.pp.disik.tt.exceptions.HttpNotFoundException;
 import ua.pp.disik.tt.repositories.PublicationRepository;
 import ua.pp.disik.tt.repositories.UserRepository;
 import ua.pp.disik.tt.services.PublicationSearchService;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,7 +81,6 @@ public class PublicationController {
             pageBlock.add(i);
         }
 
-        model.addAttribute("topics", Topic.values());
         model.addAttribute("publications", publicationPage.getContent());
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("pageBlock", pageBlock);
@@ -92,13 +93,30 @@ public class PublicationController {
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.GET)
-    public String createForm() {
+    public String createForm(Model model) {
+        Publication publication = new Publication(null, "", "", null);
+
+        model.addAttribute("publication", publication);
+
         return "/publication/create";
     }
 
     @RequestMapping(path = "/create", method = RequestMethod.POST)
-    public String create() {
-        return "redirect:/publication/create";
+    public String create(@Valid Publication publication,
+                         BindingResult bindingResult,
+                         Model model,
+                         Authentication principal,
+                         RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "/publication/create";
+        }
+
+        publication.setUser((User) principal.getPrincipal());
+        publication.setCreatedAt();
+
+        publicationRepository.save(publication);
+
+        return "redirect:/publication/list";
     }
 
     @RequestMapping(path = "/update/{id}", method = RequestMethod.GET)
@@ -112,7 +130,25 @@ public class PublicationController {
     }
 
     @RequestMapping(path = "/delete/{id}", method = RequestMethod.POST)
-    public String delete(@PathVariable String id) {
+    public String delete(@PathVariable String id,
+                         Authentication principal,
+                         RedirectAttributes redirectAttributes) {
+        Publication publication = publicationRepository.findOne(id);
+        if (publication != null) {
+            if (publication.getUser().equals(principal.getPrincipal())) {
+                publicationRepository.delete(id);
+            } else {
+                throw new HttpForbiddenException("It isn't your publication");
+            }
+        } else {
+            throw new HttpNotFoundException("Publication isn't found");
+        }
+
         return "redirect:/publication/list";
+    }
+
+    @ModelAttribute("topics")
+    public Topic[] getTopics() {
+        return Topic.values();
     }
 }

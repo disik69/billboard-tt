@@ -1,0 +1,11 @@
+.update-form #body {
+    resize: none;
+}
+
+.update-form .title {
+    font-weight: bold;
+}
+
+.update-form > div > div {
+    padding: 15px;
+}

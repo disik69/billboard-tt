@@ -1,12 +1,9 @@
 package ua.pp.disik.tt.controllers;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +16,10 @@ import ua.pp.disik.tt.entities.User;
 import ua.pp.disik.tt.exceptions.HttpForbiddenException;
 import ua.pp.disik.tt.exceptions.HttpNotFoundException;
 import ua.pp.disik.tt.repositories.PublicationRepository;
-import ua.pp.disik.tt.repositories.UserRepository;
 import ua.pp.disik.tt.services.PublicationSearchService;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,15 +29,12 @@ import java.util.List;
 @RequestMapping("/publication")
 public class PublicationController {
     private PublicationRepository publicationRepository;
-    private UserRepository userRepository;
     private PublicationSearchService publicationSearchService;
 
     @Autowired
     public PublicationController(PublicationRepository publicationRepository,
-                                 UserRepository userRepository,
                                  PublicationSearchService publicationSearchService) {
         this.publicationRepository = publicationRepository;
-        this.userRepository = userRepository;
         this.publicationSearchService = publicationSearchService;
     }
 
@@ -120,13 +111,37 @@ public class PublicationController {
     }
 
     @RequestMapping(path = "/update/{id}", method = RequestMethod.GET)
-    public String updateForm() {
+    public String updateForm(@PathVariable String id,
+                             Model model,
+                             Authentication principal) {
+        Publication publication = publicationRepository.findOne(id);
+        checkPublication(publication, principal);
+
+        model.addAttribute("publication", publication);
+
         return "/publication/update";
     }
 
     @RequestMapping(path = "/update/{id}", method = RequestMethod.POST)
-    public String update(@PathVariable String id) {
-        return "redirect:/publication/update/" + id;
+    public String update(@PathVariable String id,
+                         @Valid Publication publication,
+                         BindingResult bindingResult,
+                         Model model,
+                         RedirectAttributes redirectAttributes,
+                         Authentication principal) {
+        Publication storedPublication = publicationRepository.findOne(id);
+        checkPublication(storedPublication, principal);
+        storedPublication.setBody(publication.getBody());
+
+        if (bindingResult.hasFieldErrors("body")) {
+            model.addAttribute("storedPublication", storedPublication);
+
+            return "/publication/update";
+        }
+
+        publicationRepository.save(storedPublication);
+
+        return "redirect:/publication/list";
     }
 
     @RequestMapping(path = "/delete/{id}", method = RequestMethod.POST)
@@ -150,5 +165,14 @@ public class PublicationController {
     @ModelAttribute("topics")
     public Topic[] getTopics() {
         return Topic.values();
+    }
+
+    private void checkPublication(Publication publication,
+                                     Authentication principal) {
+        if (publication == null) {
+            throw new HttpNotFoundException("Publication isn't found");
+        } else if (! publication.getUser().equals(principal.getPrincipal())) {
+            throw new HttpForbiddenException("It isn't your publication");
+        }
     }
 }

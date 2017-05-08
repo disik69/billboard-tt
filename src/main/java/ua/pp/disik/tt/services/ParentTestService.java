@@ -1,11 +1,9 @@
 package ua.pp.disik.tt.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 
 /**
  * Created by disik on 4/19/17.
@@ -15,9 +13,9 @@ import org.springframework.web.context.annotation.RequestScope;
 @Scope(scopeName = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
 //@RequestScope
 public class ParentTestService {
-    private static int COUNTER;
+    private static int counter;
 
-    private final int id = COUNTER++;
+    private final int id = counter++;
 
     private ChildTestService childTestService;
 

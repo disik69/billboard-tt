@@ -15,6 +15,8 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
+import static freemarker.ext.jsp.TaglibFactory.*;
+
 /**
  * Created by disik on 4/7/17.
  */
@@ -38,7 +40,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Autowired
     public void configureTaglibFactory(FreeMarkerConfigurer freeMarkerConfigurer) {
-        TaglibFactory.ClasspathMetaInfTldSource classpath = new TaglibFactory.ClasspathMetaInfTldSource(Pattern.compile(".*"));
+        ClasspathMetaInfTldSource classpath = new ClasspathMetaInfTldSource(Pattern.compile(".*"));
         freeMarkerConfigurer.getTaglibFactory().setMetaInfTldSources(Arrays.asList(classpath));
     }
 
